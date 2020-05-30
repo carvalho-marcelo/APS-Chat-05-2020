@@ -29,7 +29,7 @@ public class TelaLogin extends JFrame {
 
 	private Socket socket;
 	private Mensagem message;
-	private Cliente service;
+	private Cliente cliente;
 	private JTextField tfPort;
 
 	public TelaLogin() {
@@ -72,11 +72,11 @@ public class TelaLogin extends JFrame {
 						this.message.setAction(Action.CONNECT);
 						this.message.setName(nome);
 
-						this.service = new Cliente();
-						this.socket = this.service.connect(Integer.parseInt(tfPort.getText()), this);
+						this.cliente = new Cliente();
+						this.socket = this.cliente.connect(Integer.parseInt(tfPort.getText()), this);
 
 						this.dispose();
-						new TelaChat(tfNome.getText(), socket, message, service);
+						new TelaChat(tfNome.getText(), socket, message, cliente);
 					} else {
 						JOptionPane.showMessageDialog(this, "Informe um valor para porta entre 1024 e 49152", "Erro", JOptionPane.ERROR_MESSAGE);
 					}

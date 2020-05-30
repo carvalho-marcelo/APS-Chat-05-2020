@@ -100,7 +100,7 @@ public class ListenerSocket implements Runnable {
 		
 		this.servidor.removeCliente(message.getName());
 		
-		message.setText("deixou o chat!");
+		message.setText("<font color=red>deixou o chat!</font>");
 
 		message.setAction(Action.SEND_ONE);
 		sendAll(message);
@@ -121,11 +121,12 @@ public class ListenerSocket implements Runnable {
 				if (message.getFile() != null) {
 					message.setAction(Action.SEND_FILE);
 					servidor.getGui().sendLog("> " + cliente.getKey() + " recebeu um arquivo de forma privada.");
+				} else {
+					servidor.getGui().sendLog("> " + cliente.getKey() + " recebeu uma mensagem de forma privada.");
 				}
 				
 				try {
 					cliente.getValue().writeObject(message);
-					servidor.getGui().sendLog("> " + cliente.getKey() + " recebeu uma mensagem de forma privada.");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

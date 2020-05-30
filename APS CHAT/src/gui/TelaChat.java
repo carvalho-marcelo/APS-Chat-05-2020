@@ -56,11 +56,11 @@ public class TelaChat extends JFrame {
 	private String user;
 	private Socket socket;
 	private Mensagem message;
-	private Cliente service;
+	private Cliente cliente;
 
 	private ArrayList<String> listaMsg = new ArrayList<String>();
 
-	public TelaChat(String user, Socket socket, Mensagem message, Cliente service) {
+	public TelaChat(String user, Socket socket, Mensagem message, Cliente cliente) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaChat.class.getResource("/imgs/icon.png")));
 		
 		String className = getLookAndFeelClassName("Windows");
@@ -72,7 +72,7 @@ public class TelaChat extends JFrame {
 		this.user = user;
 		this.socket = socket;
 		this.message = message;
-		this.service = service;
+		this.cliente = cliente;
 
 		setTitle(this.user);
 		setResizable(false);
@@ -118,7 +118,7 @@ public class TelaChat extends JFrame {
 		this.setVisible(true);
 
 		new Thread(new ClienteListenerSocket(this.socket, this)).start();
-		this.service.send(this.message);
+		this.cliente.send(this.message);
 	}
 
 	public void iniciarComponentes() {
@@ -271,7 +271,7 @@ public class TelaChat extends JFrame {
 			
 			this.message.setName(user);
 			this.enviar(user, textAreaMsg.getText());
-			this.service.send(this.message);
+			this.cliente.send(this.message);
 		}
 		
 		this.textAreaMsg.setText("");
@@ -283,6 +283,7 @@ public class TelaChat extends JFrame {
 		if (file != null) {
 			this.message = new Mensagem();
 			this.message.setName(user);
+			this.message.setFile(file);
 			
 			if (this.jListUsuariosOnline.getSelectedIndex() != -1) {
 				
@@ -294,15 +295,14 @@ public class TelaChat extends JFrame {
 				this.message.setText("Você recebeu '" + this.message.getFile().getName() + "' de " + this.user + ".");
 			}
 			
-			this.message.setFile(file);
 			this.enviar(user, "Arquivo '" + this.message.getFile().getName() + "' enviado com sucesso!");
-			this.service.send(this.message);
+			this.cliente.send(this.message);
 		}
 	}
 
 	public void closeClient() {
 		message.setAction(Action.DISCONNECT);
-		service.send(message);
+		cliente.send(message);
 		
 		this.dispose();
 	}

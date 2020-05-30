@@ -36,7 +36,7 @@ public class TelaServidor extends JFrame {
 	private JButton btnIniciar;
 	private JEditorPane editorPaneLog;
 	private JTextField tfPort;
-	private Servidor servidorService;
+	private Servidor servidor;
 	
 	private ArrayList<String> listaMsg = new ArrayList<String>();
 
@@ -92,9 +92,9 @@ public class TelaServidor extends JFrame {
 			if (tfPort.getText() != null || tfPort.getText() != "0") {
 				try {
 					if (Integer.parseInt(tfPort.getText()) > 1024 && Integer.parseInt(tfPort.getText()) < 49152) {
-						servidorService = new Servidor(Integer.parseInt(tfPort.getText()), this);
+						servidor = new Servidor(Integer.parseInt(tfPort.getText()), this);
 
-						new Thread(servidorService).start();
+						new Thread(servidor).start();
 					}
 					else {
 						JOptionPane.showMessageDialog(this, "Informe um valor entre 1024 e 49152", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -114,7 +114,7 @@ public class TelaServidor extends JFrame {
 		btnParar.setBounds(662, 391, 240, 60);
 		contentPane.add(btnParar);
 		btnParar.addActionListener(event -> {
-			servidorService.stop();
+			servidor.stop();
 			tfPort.setEnabled(true);
 			btnParar.setEnabled(false);
 			btnIniciar.setEnabled(true);
